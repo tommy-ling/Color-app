@@ -1,0 +1,29 @@
+.PaletteFormNavRoot {
+  display: flex
+}
+
+.navBtns {
+  margin-right: 1rem;
+}
+
+.navButton {
+  margin: 0 0.5rem
+}
+
+.link {
+  text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  .navBtns {
+    margin-right: 0;
+  }
+  .navButton {
+    margin: 0;
+    width: 50px
+  }
+  .navButton:first-child {
+    margin: 0;
+    width: 100px
+  }
+}

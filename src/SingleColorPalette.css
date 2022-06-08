@@ -1,0 +1,9 @@
+.SinglePalette {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.SinglePalette-colors {
+  height: 90%
+}
