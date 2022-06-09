@@ -1,8 +1,16 @@
 import React from 'react'
 import DraggableColorBox from './DraggableColorBox'
 import { SortableContainer } from 'react-sortable-hoc'
+import { NewPaletteFormContext } from './context/NewPaletteFormContext';
 
-const DraggableColorList = SortableContainer(({ colors, removeColor, distance }) => {
+const DraggableColorList = SortableContainer(() => {
+  const { colors, setColors } = React.useContext(NewPaletteFormContext)
+
+  const removeColor = (colorName) => {
+    const newColors = colors.filter(color => color.name !== colorName)
+    setColors(newColors)
+  }
+
   return (
     <div style={{height: '100%'}}>
       {colors.map((color, i) => (
@@ -11,8 +19,8 @@ const DraggableColorList = SortableContainer(({ colors, removeColor, distance })
             color={color.color} 
             name={color.name} 
             key={color.name} 
-            distance={1}
-            handleClick={() => removeColor(color.name)}/>
+            handleClick={() => removeColor(color.name)}
+            />
         ))}
     </div>
   )

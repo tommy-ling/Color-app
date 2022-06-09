@@ -7,6 +7,7 @@ import NewPaletteForm from './NewPaletteForm';
 import seedColors from './seedColors';
 import {generatePalette} from './colorhelpers'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { NewPaletteFormProvider } from './context/NewPaletteFormContext';
 import './App.css'
 
 class App extends Component {
@@ -48,10 +49,12 @@ class App extends Component {
             <Route exact path="/palette/new"
               render={(routeProps) => (
                 <div className='page'>
-                  <NewPaletteForm 
-                    savePalette={this.savePalette} 
-                    palettes={this.state.palettes}
-                    {...routeProps}/>
+                  <NewPaletteFormProvider>
+                    <NewPaletteForm 
+                      savePalette={this.savePalette} 
+                      palettes={this.state.palettes}
+                      {...routeProps}/>
+                  </NewPaletteFormProvider>
                 </div>)}
             />
             <Route exact path='/' 

@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Button } from '@mui/material';
 import PaletteMetaForm from './PaletteMetaForm';
+import { NewPaletteFormContext } from './context/NewPaletteFormContext';
 import './PaletteFormNav.css'
 
 const drawerWidth = 350;
@@ -35,8 +36,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function PaletteFormNav(props) {
-  const { open, handleDrawerOpen } = props
-  const [formShowing, setFormShowing] = React.useState(false)
+  const { open, setOpen, formShowing, setFormShowing } = React.useContext(NewPaletteFormContext)
 
   const handleClickOpen = () => {
     setFormShowing(true);
@@ -50,7 +50,7 @@ export default function PaletteFormNav(props) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={() => setOpen(true)}
             edge="start"
             sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
@@ -69,7 +69,8 @@ export default function PaletteFormNav(props) {
           </Button>
         </div>
       </AppBar>
-      {formShowing && <PaletteMetaForm {...props} open={formShowing} setOpen={setFormShowing}/>}
+      {formShowing && <PaletteMetaForm {...props} 
+      />}
     </div>
   )
 }

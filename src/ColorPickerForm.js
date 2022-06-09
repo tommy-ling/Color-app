@@ -2,10 +2,17 @@ import * as React from 'react'
 import { Button } from '@mui/material';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { ChromePicker } from 'react-color';
+import { NewPaletteFormContext } from './context/NewPaletteFormContext';
 import './ColorPickerForm.css'
 
-function ColorPickerForm(props) {
-  const { paletteIsFull, colors, currentColor,newColorName, updateCurrentColor, handleColorChange, addNewColor } = props
+function ColorPickerForm() {
+  const { colors, setColors, currentColor, setCurrentColor, newColorName, setnewColorName, paletteIsFull } = React.useContext(NewPaletteFormContext)
+
+  const addNewColor = () => {
+    const newColor = {color: currentColor, name: newColorName}
+    setColors([...colors, newColor])
+    setnewColorName('')
+  }
 
   React.useEffect(() => {
     ValidatorForm.addValidationRule('isColorNameUnique', (value) => {
@@ -20,7 +27,7 @@ function ColorPickerForm(props) {
     <div>
       <ChromePicker 
           color={currentColor}
-          onChangeComplete={updateCurrentColor}
+          onChangeComplete={(newColor) => setCurrentColor(newColor.hex)}
           className='picker'
         />
         <ValidatorForm
@@ -33,7 +40,7 @@ function ColorPickerForm(props) {
             placeholder="color name"
             value={newColorName}
             name='newColorName'
-            onChange={handleColorChange}
+            onChange={(e) => setnewColorName(e.target.value)}
             validators={['required', 'isColorNameUnique', 'isColorUnique']}
             errorMessages={[
               'This field is required',

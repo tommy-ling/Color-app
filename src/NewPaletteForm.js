@@ -12,6 +12,7 @@ import { arrayMove } from 'react-sortable-hoc';
 import PaletteFormNav from './PaletteFormNav';
 import ColorPickerForm from './ColorPickerForm';
 import seedColors from './seedColors';
+import { NewPaletteFormContext } from './context/NewPaletteFormContext';
 import './NewPaletteForm.css'
 
 const drawerWidth = 350;
@@ -45,40 +46,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function NewPaletteForm(props) {
-  const [open, setOpen] = React.useState(false);
-  const [currentColor, setCurrentColor] = React.useState('teal')
-  const [colors, setColors] = React.useState(seedColors[0].colors)
-  const [newColorName, setnewColorName] = React.useState('')
-
-  const maxColors = 20
-  const paletteIsFull = colors.length >= maxColors
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  const { open, setOpen, colors, setColors, paletteIsFull } = React.useContext(NewPaletteFormContext)
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const updateCurrentColor = (newColor) => {
-    setCurrentColor(newColor.hex)
-  }
-
-  const addNewColor = () => {
-    const newColor = {color: currentColor, name: newColorName}
-    setColors([...colors, newColor])
-    setnewColorName('')
-  }
-
-  const handleColorChange = (e) => {
-    setnewColorName(e.target.value)
-  }
-
-  const removeColor = (colorName) => {
-    const newColors = colors.filter(color => color.name !== colorName)
-    setColors(newColors)
-  }
 
   const clearColors = () => {
     setColors([])
@@ -105,11 +77,8 @@ export default function NewPaletteForm(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <PaletteFormNav 
-        open={open}
         palettes={props.palettes} 
-        colors={colors} 
         savePalette={props.savePalette}
-        handleDrawerOpen={handleDrawerOpen}
         history={props.history}/>
       <Drawer
         sx={{
@@ -145,24 +114,16 @@ export default function NewPaletteForm(props) {
               onClick={addRandomColor}
               disabled={paletteIsFull}>Random Color</Button>
           </div>
-          <ColorPickerForm 
-            colors={colors}
-            currentColor={currentColor}
-            newColorName={newColorName}
-            updateCurrentColor={updateCurrentColor}
-            handleColorChange={handleColorChange}
-            addNewColor={addNewColor}
-            paletteIsFull={paletteIsFull}/>
+          <ColorPickerForm />
           </div>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
         <DraggableColorList 
           axis="xy"
-          distance
-          colors={colors} 
+          distance={1}
           onSortEnd={onSortEnd}
-          removeColor={removeColor} />
+          />
       </Main>
     </Box>
   );

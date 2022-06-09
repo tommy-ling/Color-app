@@ -60,7 +60,6 @@ class PaletteList extends Component {
               <MiniPalette {...palette} 
               openDialog={this.openDialog}
               handleClick={this.goToPalette}
-              // history={this.props.history}
               />
             </CSSTransition>
           ))}
